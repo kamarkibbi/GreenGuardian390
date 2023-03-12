@@ -1,8 +1,10 @@
-package com.example.greenguardian390;
+package com.example.greenguardian390.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.greenguardian390.R;
 
 public class MainActivity extends AppCompatActivity {
 
