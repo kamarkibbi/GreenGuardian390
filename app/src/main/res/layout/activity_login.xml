@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:padding="10dp"
+        android:padding="48dp"
         android:textSize="18sp"
         android:textColor="#FF000000"
         android:hint="Password"
