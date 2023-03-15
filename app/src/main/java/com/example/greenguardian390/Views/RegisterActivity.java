@@ -1,8 +1,9 @@
 package com.example.greenguardian390.Views;
 
-/*import androidx.annotation.NonNull;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -13,27 +14,34 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.greenguardian390.Models.UserProfile;
 import com.example.greenguardian390.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
-    private FirebaseAuth mAuth;
+
+    private DatabaseReference mDatabase;
+
     private TextView banner;
-    private EditText fullName,editEmail,editPassword;
+    private EditText userName,editEmail,editPassword;
     private Button HitRegister;
     private ProgressBar progressBar;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        mAuth = FirebaseAuth.getInstance();
+
+        mDatabase=FirebaseDatabase.getInstance().getReference();
 
         HitRegister=findViewById(R.id.Register_button);
-        fullName=findViewById(R.id.FullName);
+        userName=findViewById(R.id.UserName);
         editEmail=findViewById(R.id.Email1);
         editPassword=findViewById(R.id.Password1);
         progressBar=findViewById(R.id.progressBar);
@@ -53,13 +61,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void HitRegister() {
-        String Name=fullName.getText().toString().trim();
+        String user=userName.getText().toString().trim();
         String Email=editEmail.getText().toString().trim();
         String Password=editPassword.getText().toString().trim();
 
-        if(Name.isEmpty()){
-            fullName.setError("Full name is Required!");
-            fullName.requestFocus();
+        if(user.isEmpty()){
+            userName.setError("Full name is Required!");
+            userName.requestFocus();
             return;
         }
         if(Email.isEmpty()){
@@ -68,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
         if(Password.isEmpty()){
-            editPassword.setError("Email is Required!");
+            editPassword.setError("Password is Required!");
             editPassword.requestFocus();
             return;
         }
@@ -83,7 +91,28 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
-        mAuth.createUserWithEmailAndPassword(Email,Password)
+
+        //MAKE SURE TO DO CASE IF ACCOUNT ALREADY EXISTS
+
+        UserProfile profile =new UserProfile(user,Password,Email);
+
+        mDatabase.child("userProfile").child(user).setValue(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(RegisterActivity.this,"User has been register successfully, please login in login page",Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.VISIBLE);
+                    startActivity(new Intent(RegisterActivity.this,MainActivity.class));
+                }
+                else {
+                    Toast.makeText(RegisterActivity.this,"Registration Failed! Please try again.",Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.GONE);
+
+                }
+            }
+        });
+
+       /* mAuth.createUserWithEmailAndPassword(Email,Password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -115,6 +144,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                         }
                     }
-                });
+                });*/
     }
-}*/
+}

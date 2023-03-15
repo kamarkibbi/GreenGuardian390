@@ -8,10 +8,14 @@ public class UserProfile {
 
     ArrayList<Plant> userPlants;
 
+    public UserProfile() {
+
+    }
+
     public UserProfile(String u, String p, String e) {
         this.username=u;
-        this.password=p;
         this.email=e;
+        this.password=p;
         userPlants=new ArrayList<>();
     }
 

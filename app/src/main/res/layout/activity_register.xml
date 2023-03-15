@@ -23,7 +23,7 @@
         tools:layout_editor_absoluteY="77dp" />
 
     <EditText
-        android:id="@+id/FullName"
+        android:id="@+id/UserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
@@ -45,7 +45,7 @@
         android:textColor="#FF000000"
         android:padding="48dp"
         android:textColorHint="#FF000000"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:textSize="18sp"
         android:hint="Email " />
     <EditText
@@ -58,6 +58,7 @@
         android:layout_marginTop="20dp"
         android:textSize="18sp"
         android:padding="48dp"
+        android:inputType="textPassword"
         android:textColorHint="#FF000000"
         android:hint="Password "
 

@@ -10,6 +10,11 @@ public class Plant {
 
     public Image plantImage;
 
+    public Plant()
+    {
+
+    }
+
     public Plant(float s, float t, String n, Image i) {
         this.actualSoilMoisture=s;
         this.actualTemp=t;
