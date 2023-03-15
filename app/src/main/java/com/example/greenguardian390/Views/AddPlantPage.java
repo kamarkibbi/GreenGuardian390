@@ -1,4 +1,4 @@
-package com.example.greenguardian390;
+package com.example.greenguardian390.Views;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.greenguardian390.R;
 
 public class AddPlantPage extends AppCompatActivity {
     ImageView selectedImage;
@@ -47,7 +49,7 @@ public class AddPlantPage extends AppCompatActivity {
                 String t = temperature.getText().toString();
                 String m = moisture.getText().toString();
 
-                Intent intent = new Intent(AddPlantPage.this,MainPage.class);
+                Intent intent = new Intent(AddPlantPage.this, MainPage.class);
 
                 intent.putExtra("namePlant",n);
                 intent.putExtra("temperatureLevel",t);

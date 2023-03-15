@@ -1,4 +1,4 @@
-package com.example.greenguardian390;
+package com.example.greenguardian390.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -9,7 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+
+import com.example.greenguardian390.R;
+import com.example.greenguardian390.Views.AddPlantPage;
 
 public class MainPage extends AppCompatActivity {
 
