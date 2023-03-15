@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "790737863476",
+    "firebase_url": "https://coen390test-6149b-default-rtdb.firebaseio.com",
+    "project_id": "coen390test-6149b",
+    "storage_bucket": "coen390test-6149b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790737863476:android:b737beb1fec10ac2335b61",
+        "android_client_info": {
+          "package_name": "com.example.greenguardian"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790737863476-hgmlgoqsd38l0kcjfcsaqr6r8rv2qmup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJnmQMEcWTP9n-ytEcrtJvlmQW4zegw84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790737863476-hgmlgoqsd38l0kcjfcsaqr6r8rv2qmup.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
