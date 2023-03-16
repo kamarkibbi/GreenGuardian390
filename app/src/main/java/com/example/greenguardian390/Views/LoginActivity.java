@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
 
-
+        //Tanzila code, used authentication database, ours is real-time database
         /*
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override

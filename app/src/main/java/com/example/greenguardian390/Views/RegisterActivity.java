@@ -112,6 +112,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
+        //Tanzila code, used authentication database, ours is real-time database
        /* mAuth.createUserWithEmailAndPassword(Email,Password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
