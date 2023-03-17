@@ -33,7 +33,10 @@ public class MainPage extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openAddPlantPage();
+
+                Intent intent =new Intent(MainPage.this,PlantPage.class);
+                startActivity(intent);
+                //openAddPlantPage();
 
 
             }

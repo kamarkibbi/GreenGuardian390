@@ -37,7 +37,7 @@ public class PlantPage extends AppCompatActivity {
         soilSensor=findViewById(R.id.soilSensor);
         soilInput=findViewById(R.id.soilInput);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("sensorData");
+        mDatabase = FirebaseDatabase.getInstance().getReference("TestData").child("17-03-2023").child("17:26");
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -45,9 +45,9 @@ public class PlantPage extends AppCompatActivity {
                 for(DataSnapshot d :snapshot.getChildren())
                 {
                     if (d.getKey().toLowerCase().contains("moisture"))
-                        soilSensor.setText((CharSequence) d.getValue());
+                        soilSensor.setText(d.getValue()+"");
                     if(d.getKey().toLowerCase().contains("temperature"))
-                        tempSensor.setText((CharSequence)d.getValue());
+                        tempSensor.setText(d.getValue()+"");
                 }
             }
 
