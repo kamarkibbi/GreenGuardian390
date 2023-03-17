@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.example.greenguardian390.R;
 import com.example.greenguardian390.Views.AddPlantPage;
@@ -18,7 +19,7 @@ public class MainPage extends AppCompatActivity {
 
     private Button button;
 
-    //ListView listView;
+    ListView listView;
 
 
     @Override

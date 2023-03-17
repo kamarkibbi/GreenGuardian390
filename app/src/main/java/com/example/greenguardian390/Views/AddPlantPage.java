@@ -18,6 +18,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.greenguardian390.Models.Plant;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import com.example.greenguardian390.R;
 
 public class AddPlantPage extends AppCompatActivity {
@@ -45,15 +52,18 @@ public class AddPlantPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String n = name.getText().toString();
-                String t = temperature.getText().toString();
-                String m = moisture.getText().toString();
 
                 Intent intent = new Intent(AddPlantPage.this, MainPage.class);
 
-                intent.putExtra("namePlant",n);
+
+                //intent= getIntent();
+
+
+
+
+                /*intent.putExtra("namePlant",n);
                 intent.putExtra("temperatureLevel",t);
-                intent.putExtra("moistureLevel",m);
+                intent.putExtra("moistureLevel",m);*/
 
                 startActivity(intent);
 
@@ -79,6 +89,19 @@ public class AddPlantPage extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void addPlantToProfile()
+    {
+        String n = name.getText().toString().trim();
+        String t = temperature.getText().toString().trim();
+        String m = moisture.getText().toString().trim();
+
+        Plant plantCreated=new Plant(Float.parseFloat(m),Float.parseFloat(t),n,selectedImage);
+
+        Intent intent=getIntent();
+
+        //String currentUser= intent.getStringExtra();
     }
 
     private void askCameraPermission() {   //CHECKS IF PERMISSION IS GRANTED FROM USER OR NOT

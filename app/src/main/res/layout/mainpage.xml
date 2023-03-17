@@ -9,24 +9,23 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <ListView
+        android:id="@+id/userPlants"
+        android:layout_width="match_parent"
+        android:layout_height="554dp"
+        android:layout_marginTop="70dp" />
 
-
-    <LinearLayout
+    <Button
+        android:id="@+id/AddPlantButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="58dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/white"
+        android:text="Add A Plant "
+        android:textSize="18sp" />
 
 
-
-        <Button
-            android:id="@+id/AddPlantButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="480dp"
-            android:background="@color/white"
-            android:text="Add A Plant "
-            android:textSize="18sp" />
-
+        <!--
         <Button
             android:id="@+id/DeleteButton"
             android:layout_width="wrap_content"
@@ -47,7 +46,9 @@
             android:text="Edit Plant "
             android:textSize="18sp" />
 
+        -->
+
 
     </LinearLayout>
-</LinearLayout>
+
 

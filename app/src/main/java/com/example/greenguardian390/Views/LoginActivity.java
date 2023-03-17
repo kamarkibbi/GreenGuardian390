@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         progressBar.setVisibility(View.VISIBLE);
 
-        mDatabase.child(usernameInputted);
+        //mDatabase.child();
 
         //FOR SOME REASON STILL GOES TO MAIN PAGE IF ACCOUNT DOESNT EXIST???? FIXXX
         mDatabase.addValueEventListener(new ValueEventListener() {
@@ -105,6 +105,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 if (snapshot.exists())
                 {
+                    Intent intent=new Intent(LoginActivity.this,AddPlantPage.class);
+                    intent.putExtra("currentProfile",usernameInputted);
                     startActivity(new Intent(LoginActivity.this,MainPage.class));
                 }
 

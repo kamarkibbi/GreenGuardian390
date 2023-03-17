@@ -1,6 +1,7 @@
 package com.example.greenguardian390.Models;
 
 import android.media.Image;
+import android.widget.ImageView;
 
 public class Plant {
 
@@ -8,14 +9,14 @@ public class Plant {
 
     public String plantName;
 
-    public Image plantImage;
+    public ImageView plantImage;
 
     public Plant()
     {
 
     }
 
-    public Plant(float s, float t, String n, Image i) {
+    public Plant(float s, float t, String n, ImageView i) {
         this.actualSoilMoisture=s;
         this.actualTemp=t;
         this.plantName=n;
@@ -46,11 +47,11 @@ public class Plant {
         this.plantName = plantName;
     }
 
-    public Image getPlantImage() {
+    public ImageView getPlantImage() {
         return plantImage;
     }
 
-    public void setPlantImage(Image plantImage) {
+    public void setPlantImage(ImageView plantImage) {
         this.plantImage = plantImage;
     }
 }
