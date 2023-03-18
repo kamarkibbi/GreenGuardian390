@@ -20,10 +20,13 @@
         android:textColor="#FF000000"
         android:gravity="center"
         android:textSize="22sp"
-        android:id="@+id/banner"
+        android:id="@+id/banner" />
 
-
-        />
+    <TextView
+        android:id="@+id/testData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="testDataRetrival"/>
 
     <EditText
         android:id="@+id/UserName"

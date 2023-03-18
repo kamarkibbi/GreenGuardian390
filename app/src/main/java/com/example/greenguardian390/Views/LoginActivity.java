@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.util.Log;
 import android.util.Patterns;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.greenguardian390.Models.UserProfile;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +28,9 @@ import com.google.android.gms.tasks.Task;
 import android.os.Bundle;
 
 import com.example.greenguardian390.R;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -33,14 +38,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button HitLogin;
     private TextView forgotPassword;
 
+    TextView test;
+
     DatabaseReference mDatabase;
     ProgressBar progressBar;
+
+    FirebaseFirestore db;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mDatabase= FirebaseDatabase.getInstance().getReference("userProfile");
+
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         mUsername=findViewById(R.id.UserName);
         mPassword=findViewById(R.id.PassWord);
@@ -51,6 +63,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressBar=findViewById(R.id.progressBar);
         forgotPassword=findViewById(R.id.ForgotPassword);
         forgotPassword.setOnClickListener(this);
+
+        test=findViewById(R.id.testData);
 
 
     }
@@ -96,27 +110,66 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         progressBar.setVisibility(View.VISIBLE);
 
-        //mDatabase.child();
+       //mDatabase.getKey().toLowerCase().contains("username");
+
+        mDatabase= FirebaseDatabase.getInstance().getReference("userProfile/"+usernameInputted);
 
         //FOR SOME REASON STILL GOES TO MAIN PAGE IF ACCOUNT DOESNT EXIST???? FIXXX
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                if (snapshot.exists())
-                {
-                    Intent intent=new Intent(LoginActivity.this,AddPlantPage.class);
-                    intent.putExtra("currentProfile",usernameInputted);
-                    startActivity(new Intent(LoginActivity.this,MainPage.class));
-                }
+                System.out.println("on data change called");
 
-            }
+                UserProfile userProfile= snapshot.getValue(UserProfile.class);
+
+                System.out.println(userProfile.getUsername());
+                /*for(DataSnapshot d :snapshot.getChildren())
+                {
+                    if ((d.getKey().toLowerCase().contains("username")))
+                    {
+                        if((d.getValue().equals(usernameInputted)))
+                        {
+                            test.setText(d.getValue()+"");
+                            Intent intent=new Intent(LoginActivity.this,MainPage.class);
+                            //intent.putExtra("currentProfile",usernameInputted);
+                            startActivity(new Intent(LoginActivity.this,MainPage.class));
+                        }
+                }*/
+
+
+                }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(LoginActivity.this,"Please check username spelling or create account in register page",Toast.LENGTH_LONG).show();
             }
+
         });
+
+
+
+
+
+
+
+        /*DocumentReference docRef = db.collection("userProfile").document(usernameInputted);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                System.out.println("On complete called");
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });*/
 
 
 
