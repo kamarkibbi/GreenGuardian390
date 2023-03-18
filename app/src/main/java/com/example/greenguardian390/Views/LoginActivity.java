@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -31,6 +32,8 @@ import com.example.greenguardian390.R;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.Serializable;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -122,6 +125,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 System.out.println("on data change called");
 
                 UserProfile userProfile= snapshot.getValue(UserProfile.class);
+
+                Intent intent=new Intent(LoginActivity.this,MainPage.class);
+
+
+                intent.putExtra("currentProfile", userProfile);
+
+                startActivity(intent);
+
 
                 System.out.println(userProfile.getUsername());
                 /*for(DataSnapshot d :snapshot.getChildren())

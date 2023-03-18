@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.greenguardian390.Models.Plant;
+import com.example.greenguardian390.Models.UserProfile;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,9 +28,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import com.example.greenguardian390.R;
 
+import java.util.ArrayList;
+
 public class AddPlantPage extends AppCompatActivity {
     ImageView selectedImage;
     Button CameraButton, GalleryButton;
+
+    DatabaseReference mDatabase;
 
     private EditText name,temperature,moisture;
     private Button save;
@@ -43,6 +48,8 @@ public class AddPlantPage extends AppCompatActivity {
         CameraButton = findViewById(R.id.CameraButton);
         GalleryButton = findViewById(R.id.GalleryButton);
 
+        mDatabase= FirebaseDatabase.getInstance().getReference();
+
         save = findViewById(R.id.Savebutton);
         temperature = findViewById(R.id.AddTemperatureEditText);
         name = findViewById(R.id.AddNameEditText);
@@ -52,7 +59,7 @@ public class AddPlantPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
+                addPlantToProfile();
                 Intent intent = new Intent(AddPlantPage.this, MainPage.class);
 
 
@@ -97,11 +104,20 @@ public class AddPlantPage extends AppCompatActivity {
         String t = temperature.getText().toString().trim();
         String m = moisture.getText().toString().trim();
 
-        Plant plantCreated=new Plant(Float.parseFloat(m),Float.parseFloat(t),n,selectedImage);
+        Plant plantCreated=new Plant(Float.parseFloat(m),Float.parseFloat(t),n);
+        //selectedImage
 
-        Intent intent=getIntent();
+        UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("CurrentUser");
 
-        //String currentUser= intent.getStringExtra();
+        System.out.println(currentuser.getUsername());
+
+        ArrayList<Plant> plantList=currentuser.getUserPlants();
+
+        plantList.add(plantCreated);
+
+        mDatabase.child("userProfile/"+currentuser.getUsername()).setValue(currentuser);
+
+
     }
 
     private void askCameraPermission() {   //CHECKS IF PERMISSION IS GRANTED FROM USER OR NOT

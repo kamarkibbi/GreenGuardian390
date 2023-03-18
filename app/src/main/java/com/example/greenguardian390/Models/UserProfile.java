@@ -1,22 +1,22 @@
 package com.example.greenguardian390.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UserProfile {
+public class UserProfile implements Serializable{
 
-    String username,password,email;
+    public String username,password,email;
 
-    ArrayList<Plant> userPlants;
+    public ArrayList<Plant> userPlants;
 
     public UserProfile() {
-
+        userPlants=new ArrayList<>();
     }
 
     public UserProfile(String u, String p, String e) {
         this.username=u;
         this.email=e;
         this.password=p;
-        userPlants=new ArrayList<>();
     }
 
     public String getUsername() {
@@ -41,6 +41,11 @@ public class UserProfile {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public ArrayList<Plant> getUserPlants()
+    {
+        return userPlants;
     }
 
     public void addPlant(Plant p)
