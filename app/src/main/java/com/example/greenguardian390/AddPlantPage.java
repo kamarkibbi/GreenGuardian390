@@ -17,6 +17,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class AddPlantPage extends AppCompatActivity {
     ImageView selectedImage;
@@ -24,6 +30,8 @@ public class AddPlantPage extends AppCompatActivity {
 
     private EditText name,temperature,moisture;
     private Button save;
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private DatabaseReference root = db.getReference().child("Users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,24 +47,33 @@ public class AddPlantPage extends AppCompatActivity {
         name = findViewById(R.id.AddNameEditText);
         moisture = findViewById(R.id.AddSoilEditText);
 
+        
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String n = name.getText().toString();
-                String t = temperature.getText().toString();
-                String m = moisture.getText().toString();
+                String Name = name.getText().toString();
+                String temp = temperature.getText().toString();
+                String moist= moisture.getText().toString();
+                HashMap<String , String> userMap = new HashMap<>();
 
-                Intent intent = new Intent(AddPlantPage.this,MainPage.class);
+                userMap.put("name" , Name);
+                userMap.put("temp" , temp);
+                userMap.put("moisture" , moist);
 
-                intent.putExtra("namePlant",n);
-                intent.putExtra("temperatureLevel",t);
-                intent.putExtra("moistureLevel",m);
+                root.push().setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(MainActivity.this, "Data added", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-                startActivity(intent);
 
-            }
+
+
+           }
         });
+
 
 
         CameraButton.setOnClickListener(new View.OnClickListener() {
