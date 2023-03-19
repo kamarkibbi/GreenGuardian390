@@ -37,7 +37,7 @@ public class PlantPage extends AppCompatActivity {
         soilSensor=findViewById(R.id.soilSensor);
         soilInput=findViewById(R.id.soilInput);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("TestData").child("17-03-2023").child("17:26");
+        /*mDatabase = FirebaseDatabase.getInstance().getReference("TestData").child("17-03-2023").child("17:26");
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -55,6 +55,6 @@ public class PlantPage extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
     }
 }

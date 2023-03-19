@@ -8,12 +8,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.greenguardian390.Models.Plant;
 import com.example.greenguardian390.Models.UserProfile;
 import com.example.greenguardian390.R;
 import com.example.greenguardian390.Views.AddPlantPage;
+
+import java.util.ArrayList;
 
 public class MainPage extends AppCompatActivity {
 
@@ -23,12 +28,31 @@ public class MainPage extends AppCompatActivity {
     ListView listView;
 
 
+//    UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainpage);
 
+        listView=findViewById(R.id.userPlants);
 
+        UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");
+
+        ArrayList<Plant> currentUserPlants=currentuser.getUserPlants();
+
+        ArrayList<String> plantNames=new ArrayList<>();
+
+        if(currentUserPlants.size()>0)
+        {
+            for(Plant userPlant : currentUserPlants)
+            {
+                String plantName;
+                plantNames.add(userPlant.getPlantName());
+            }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, plantNames);
+            listView.setAdapter(adapter);
+        }
 
         button = (Button) findViewById(R.id.AddPlantButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +66,20 @@ public class MainPage extends AppCompatActivity {
 
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //String selectedItem = (String) parent.getItemAtPosition(position);
+                Intent intent=new Intent(MainPage.this,PlantPage.class);
+                intent.putExtra("CurrentUser",currentuser);
+                startActivity(intent);
+
+            }
+        });
     }
+
+
     public void openAddPlantPage() {
         UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");
         System.out.println(currentuser.getUsername());
