@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button HitLogin;
     private TextView forgotPassword;
 
-    TextView test;
+
 
     DatabaseReference mDatabase;
     ProgressBar progressBar;
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         forgotPassword=findViewById(R.id.ForgotPassword);
         forgotPassword.setOnClickListener(this);
 
-        test=findViewById(R.id.testData);
+
 
 
     }
@@ -113,7 +113,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         progressBar.setVisibility(View.VISIBLE);
 
-       //mDatabase.getKey().toLowerCase().contains("username");
 
         mDatabase= FirebaseDatabase.getInstance().getReference("userProfile/"+usernameInputted);
 
@@ -124,17 +123,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 System.out.println("on data change called");
 
-                UserProfile userProfile= snapshot.getValue(UserProfile.class);
-
-                Intent intent=new Intent(LoginActivity.this,MainPage.class);
-
-
-                intent.putExtra("currentProfile", userProfile);
-
-                startActivity(intent);
+                try{
+                    UserProfile userProfile= snapshot.getValue(UserProfile.class);
 
 
-                System.out.println(userProfile.getUsername());
+                    Intent intent=new Intent(LoginActivity.this,MainPage.class);
+
+                    intent.putExtra("currentProfile", userProfile);
+
+                    startActivity(intent);
+
+                    System.out.println(userProfile.getUsername());
+                }catch(NullPointerException e)
+                {
+                    Toast.makeText(LoginActivity.this,"Please check username spelling or create account in register page",Toast.LENGTH_LONG).show();
+                }
+
+
+
+
+                //System.out.println(userProfile.getUsername());
                 /*for(DataSnapshot d :snapshot.getChildren())
                 {
                     if ((d.getKey().toLowerCase().contains("username")))
@@ -153,7 +161,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(LoginActivity.this,"Please check username spelling or create account in register page",Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this,"Please check username spelling or create account in register page",Toast.LENGTH_LONG).show();
             }
 
         });
