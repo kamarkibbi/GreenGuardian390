@@ -11,18 +11,18 @@ public class Plant implements Serializable {
 
     public String plantName;
 
-    //public ImageView plantImage;
+    public ImageView plantImage;
 
     public Plant()
     {
 
     }
 
-    public Plant(float s, float t, String n) {
+    public Plant(float s, float t, String n, ImageView i) {
         this.actualSoilMoisture=s;
         this.actualTemp=t;
         this.plantName=n;
-        //this.plantImage=i; ImageView i
+        this.plantImage=i;
     }
 
     public float getActualSoilMoisture() {
@@ -49,11 +49,11 @@ public class Plant implements Serializable {
         this.plantName = plantName;
     }
 
-    /*public ImageView getPlantImage() {
+    public ImageView getPlantImage() {
         return plantImage;
     }
 
     public void setPlantImage(ImageView plantImage) {
         this.plantImage = plantImage;
-    }*/
+    }
 }

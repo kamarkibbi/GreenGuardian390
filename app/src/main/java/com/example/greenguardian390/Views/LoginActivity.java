@@ -126,17 +126,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 try{
                     UserProfile userProfile= snapshot.getValue(UserProfile.class);
 
+                    if(userProfile!=null) {
 
-                    Intent intent=new Intent(LoginActivity.this,MainPage.class);
 
-                    intent.putExtra("currentProfile", userProfile);
+                        Intent intent = new Intent(LoginActivity.this, MainPage.class);
 
-                    startActivity(intent);
+                        intent.putExtra("currentProfile", userProfile);
+
+                        startActivity(intent);
+                    }else {
+                        Toast.makeText(LoginActivity.this,"Please check username spelling or create account in register page",Toast.LENGTH_LONG).show();
+                    }
 
                     System.out.println(userProfile.getUsername());
                 }catch(NullPointerException e)
                 {
                     Toast.makeText(LoginActivity.this,"Please check username spelling or create account in register page",Toast.LENGTH_LONG).show();
+                    return ;
                 }
 
 

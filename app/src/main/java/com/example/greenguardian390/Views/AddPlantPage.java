@@ -83,7 +83,7 @@ public class AddPlantPage extends AppCompatActivity {
             public void onClick(View view) {
 
                 askCameraPermission();
-                //Toast.makeText(AddPlantPage.this, "Camera button is clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddPlantPage.this, "Camera button is clicked", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -104,7 +104,7 @@ public class AddPlantPage extends AppCompatActivity {
         String t = temperature.getText().toString().trim();
         String m = moisture.getText().toString().trim();
 
-        Plant plantCreated=new Plant(Float.parseFloat(m),Float.parseFloat(t),n);
+        Plant plantCreated=new Plant(Float.parseFloat(m),Float.parseFloat(t),n,selectedImage);
         //selectedImage
 
         UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("CurrentUser");
