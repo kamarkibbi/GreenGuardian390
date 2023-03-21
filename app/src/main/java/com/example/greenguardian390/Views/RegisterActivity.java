@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mDatabase=FirebaseDatabase.getInstance().getReference();
+        //mDatabase=FirebaseDatabase.getInstance().getReference();
 
         HitRegister=findViewById(R.id.Register_button);
         userName=findViewById(R.id.UserName);
@@ -58,6 +58,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 HitRegister();
                 break;
         }
+    }
+
+    public boolean userExists(String u)
+    {
+
+        return true;
     }
 
     private void HitRegister() {
@@ -92,25 +98,47 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
         progressBar.setVisibility(View.VISIBLE);
 
-        //MAKE SURE TO DO CASE IF ACCOUNT ALREADY EXISTS
-
-        UserProfile profile =new UserProfile(user,Password,Email);
-
-        mDatabase.child("userProfile").child(user).setValue(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase= FirebaseDatabase.getInstance().getReference("userProfile/"+user);
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(RegisterActivity.this,"User has been register successfully, please login in login page",Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.VISIBLE);
-                    startActivity(new Intent(RegisterActivity.this,MainActivity.class));
-                }
-                else {
-                    Toast.makeText(RegisterActivity.this,"Registration Failed! Please try again.",Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserProfile userProfile= snapshot.getValue(UserProfile.class);
 
+                if(userProfile==null)
+                {
+                    mDatabase=FirebaseDatabase.getInstance().getReference();
+                    UserProfile profile =new UserProfile(user,Password,Email);
+
+                    mDatabase.child("userProfile").child(user).setValue(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(RegisterActivity.this,"User has been register successfully, please login in login page",Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.VISIBLE);
+                                startActivity(new Intent(RegisterActivity.this,MainActivity.class));
+                            }
+                            else {
+                                Toast.makeText(RegisterActivity.this,"Registration Failed! Please try again.",Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.GONE);
+
+                            }
+                        }
+                    });
                 }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+
+
+
+
+
 
         //Tanzila code, used authentication database, ours is real-time database
        /* mAuth.createUserWithEmailAndPassword(Email,Password)
@@ -147,4 +175,5 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
                 });*/
     }
+
 }

@@ -46,16 +46,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     DatabaseReference mDatabase;
     ProgressBar progressBar;
 
-    FirebaseFirestore db;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         mUsername=findViewById(R.id.UserName);
         mPassword=findViewById(R.id.PassWord);
@@ -66,9 +63,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressBar=findViewById(R.id.progressBar);
         forgotPassword=findViewById(R.id.ForgotPassword);
         forgotPassword.setOnClickListener(this);
-
-
-
 
     }
 
@@ -116,51 +110,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mDatabase= FirebaseDatabase.getInstance().getReference("userProfile/"+usernameInputted);
 
-        //FOR SOME REASON STILL GOES TO MAIN PAGE IF ACCOUNT DOESNT EXIST???? FIXXX
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                System.out.println("on data change called");
+               // System.out.println("on data change called");
 
-                try{
-                    UserProfile userProfile= snapshot.getValue(UserProfile.class);
+                UserProfile userProfile= snapshot.getValue(UserProfile.class);
 
-                    if(userProfile!=null) {
+                if(userProfile!=null) {
 
-
+                    if(userProfile.getPassword().equals(password))
+                    {
                         Intent intent = new Intent(LoginActivity.this, MainPage.class);
 
                         intent.putExtra("currentProfile", userProfile);
 
                         startActivity(intent);
-                    }else {
-                        Toast.makeText(LoginActivity.this,"Please check username spelling or create account in register page",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(LoginActivity.this,"Incorrect Password",Toast.LENGTH_LONG).show();
                     }
 
-                    System.out.println(userProfile.getUsername());
-                }catch(NullPointerException e)
-                {
+                }else {
                     Toast.makeText(LoginActivity.this,"Please check username spelling or create account in register page",Toast.LENGTH_LONG).show();
-                    return ;
                 }
-
-
-
-
-                //System.out.println(userProfile.getUsername());
-                /*for(DataSnapshot d :snapshot.getChildren())
-                {
-                    if ((d.getKey().toLowerCase().contains("username")))
-                    {
-                        if((d.getValue().equals(usernameInputted)))
-                        {
-                            test.setText(d.getValue()+"");
-                            Intent intent=new Intent(LoginActivity.this,MainPage.class);
-                            //intent.putExtra("currentProfile",usernameInputted);
-                            startActivity(new Intent(LoginActivity.this,MainPage.class));
-                        }
-                }*/
 
 
                 }
@@ -172,46 +146,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         });
 
-
-
-
-
-
-
-        /*DocumentReference docRef = db.collection("userProfile").document(usernameInputted);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                System.out.println("On complete called");
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });*/
-
-
-
-        //Tanzila code, used authentication database, ours is real-time database
-        /*
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
-
-                }
-                else {
-                    Toast.makeText(LoginActivity.this,"Failed to login!Either Username or password is incorrect",Toast.LENGTH_LONG).show();
-                }
-            }
-        });*/
 
     }
 }
