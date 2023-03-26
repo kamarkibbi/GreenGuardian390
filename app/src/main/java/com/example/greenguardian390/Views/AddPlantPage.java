@@ -31,8 +31,7 @@ import com.example.greenguardian390.R;
 import java.util.ArrayList;
 
 public class AddPlantPage extends AppCompatActivity {
-    ImageView selectedImage;
-    Button CameraButton, GalleryButton;
+
 
     DatabaseReference mDatabase;
 
@@ -44,9 +43,9 @@ public class AddPlantPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_plant_page);
 
-        selectedImage = findViewById(R.id.ImageView);
+        /*selectedImage = findViewById(R.id.ImageView);
         CameraButton = findViewById(R.id.CameraButton);
-        GalleryButton = findViewById(R.id.GalleryButton);
+        GalleryButton = findViewById(R.id.GalleryButton);*/
 
         mDatabase= FirebaseDatabase.getInstance().getReference();
 
@@ -77,7 +76,7 @@ public class AddPlantPage extends AppCompatActivity {
             }
         });
 
-
+        /*
         CameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,7 +93,7 @@ public class AddPlantPage extends AppCompatActivity {
                 Toast.makeText(AddPlantPage.this, "Gallery button is clicked", Toast.LENGTH_SHORT).show();
 
             }
-        });
+        });*/
 
     }
 
@@ -104,7 +103,7 @@ public class AddPlantPage extends AppCompatActivity {
         String t = temperature.getText().toString().trim();
         String m = moisture.getText().toString().trim();
 
-        Plant plantCreated=new Plant(Float.parseFloat(m),Float.parseFloat(t),n,selectedImage);
+        Plant plantCreated=new Plant(Float.parseFloat(m),Float.parseFloat(t),n);
         //selectedImage
 
         UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("CurrentUser");
@@ -120,6 +119,7 @@ public class AddPlantPage extends AppCompatActivity {
 
     }
 
+    /*
     private void askCameraPermission() {   //CHECKS IF PERMISSION IS GRANTED FROM USER OR NOT
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 111);
@@ -129,6 +129,7 @@ public class AddPlantPage extends AppCompatActivity {
         }
 
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -158,5 +159,5 @@ public class AddPlantPage extends AppCompatActivity {
         }
 
 
-    }
+    }*/
 }

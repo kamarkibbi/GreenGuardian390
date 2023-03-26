@@ -44,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         userName=findViewById(R.id.UserName);
         editEmail=findViewById(R.id.Email1);
         editPassword=findViewById(R.id.Password1);
-        progressBar=findViewById(R.id.progressBar);
+        progressBar=findViewById(R.id.progressBarRegister);
 
         HitRegister.setOnClickListener(this);
 
@@ -53,18 +53,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId())
+        {
             case R.id.Register_button:
                 HitRegister();
                 break;
         }
     }
 
-    public boolean userExists(String u)
-    {
-
-        return true;
-    }
 
     private void HitRegister() {
         String user=userName.getText().toString().trim();
@@ -72,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String Password=editPassword.getText().toString().trim();
 
         if(user.isEmpty()){
-            userName.setError("Full name is Required!");
+            userName.setError("Username is Required!");
             userName.requestFocus();
             return;
         }

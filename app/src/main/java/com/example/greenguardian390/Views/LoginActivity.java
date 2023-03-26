@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         HitLogin=findViewById(R.id.Login1);
         HitLogin.setOnClickListener(this);
 
-        progressBar=findViewById(R.id.progressBar);
+        progressBar=findViewById(R.id.progressBarLogin);
         forgotPassword=findViewById(R.id.ForgotPassword);
         forgotPassword.setOnClickListener(this);
 
@@ -73,12 +73,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 userLogin();
                 break;
         }
-        /*
+
         switch (view.getId()){
             case R.id.ForgotPassword:
-                startActivity(new Intent(this,ForgotPassword.class));
+                startActivity(new Intent(this,ForgetPassword.class));
                 break;
-        }*/
+        }
     }
 
     private void userLogin() {
