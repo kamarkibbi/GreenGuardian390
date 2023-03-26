@@ -45,9 +45,22 @@ public class PlantPage extends AppCompatActivity {
                 for(DataSnapshot d :snapshot.getChildren())
                 {
                     if (d.getKey().toLowerCase().contains("moisture"))
+                    {
                         soilSensor.setText(d.getValue()+"");
+                    }
+
+
                     if(d.getKey().toLowerCase().contains("temperature"))
+                    {
                         tempSensor.setText(d.getValue()+"");
+                        if((double)d.getValue()>21)
+                        {
+                            Intent intent = new Intent(PlantPage.this, sensorChangeNotifications.class);
+                            startService(intent);
+                        }
+                        //stopService(new Intent(PlantPage.this, sensorChangeNotifications.class));
+                    }
+
                 }
             }
 
