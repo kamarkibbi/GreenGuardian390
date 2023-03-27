@@ -38,6 +38,7 @@ public class MainPage extends AppCompatActivity {
 
         UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");
 
+
         ArrayList<Plant> currentUserPlants=currentuser.getUserPlants();
 
         ArrayList<String> plantNames=new ArrayList<>();

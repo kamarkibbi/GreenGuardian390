@@ -53,7 +53,7 @@ public class PlantPage extends AppCompatActivity {
                     if(d.getKey().toLowerCase().contains("temperature"))
                     {
                         tempSensor.setText(d.getValue()+"");
-                        if((double)d.getValue()>21)
+                        if((Long)d.getValue()>21)
                         {
                             Intent intent = new Intent(PlantPage.this, sensorChangeNotifications.class);
                             startService(intent);

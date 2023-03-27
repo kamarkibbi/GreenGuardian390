@@ -23,6 +23,8 @@ public class sensorChangeNotifications extends Service {
     public void onCreate() {
         super.onCreate();
 
+        //get data here and do threshold here, call notification in login page
+
         mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         // Create notification channel
@@ -58,6 +60,7 @@ public class sensorChangeNotifications extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
+        //thread.sleep for 1 min (google how to for service)
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }
