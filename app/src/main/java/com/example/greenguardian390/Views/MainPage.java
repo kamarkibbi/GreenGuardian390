@@ -71,9 +71,19 @@ public class MainPage extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //String selectedItem = (String) parent.getItemAtPosition(position);
+                String selectedPlantName = (String) adapterView.getItemAtPosition(i);
+                Plant selectedPlant=new Plant();
+                for (Plant userPlant : currentUserPlants)
+                {
+                    if(userPlant.getPlantName().equals(selectedPlantName))
+                    {
+                        selectedPlant=userPlant;
+                        break;
+                    }
+                }
                 Intent intent=new Intent(MainPage.this,PlantPage.class);
                 intent.putExtra("CurrentUser",currentuser);
+                intent.putExtra("plantClicked", selectedPlant);
                 startActivity(intent);
 
             }

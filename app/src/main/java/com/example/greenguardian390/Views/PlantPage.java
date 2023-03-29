@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.greenguardian390.Models.Plant;
+import com.example.greenguardian390.Models.UserProfile;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +40,14 @@ public class PlantPage extends AppCompatActivity {
         soilInput=findViewById(R.id.soilInput);
 
         mDatabase = FirebaseDatabase.getInstance().getReference("SenData");
+
+        UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("CurrentUser");
+        Plant selectedPlant = (Plant) getIntent().getSerializableExtra("plantClicked");
+
+
+        plantName.setText(selectedPlant.getPlantName());
+        tempInput.setText(String.valueOf(selectedPlant.getActualTemp()));
+        soilInput.setText(String.valueOf(selectedPlant.getActualSoilMoisture()));
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
