@@ -5,11 +5,14 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.example.greenguardian390.Models.Plant;
+import com.example.greenguardian390.Models.UserProfile;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +26,9 @@ public class sensorChangeNotifications extends Service {
     private static final String CHANNEL_ID = "The Green Guardian";
     private NotificationManager mNotificationManager;
 
+    private String notificationMessage;
 
+    private UserProfile currentUser;
 
     DatabaseReference mDatabase;
 
@@ -38,6 +43,8 @@ public class sensorChangeNotifications extends Service {
 
         mDatabase = FirebaseDatabase.getInstance().getReference("SenData");
 
+        //UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");
+
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -46,21 +53,40 @@ public class sensorChangeNotifications extends Service {
                 {
                     if (d.getKey().toLowerCase().contains("moisture"))
                     {
-                        if((Long)d.getValue()>((Long)d.getValue()+5))
+                        if(currentUser != null && currentUser.getUserPlants().size()>0)
                         {
+                            for (Plant p : currentUser.getUserPlants())
+                            {
+                                if((Long)d.getValue()>=(p.getActualSoilMoisture()+5))
+                                {
+                                    notificationMessage="Your soil moisture is too high, fix it!";
+                                } else if ((Long)d.getValue()<=(p.getActualSoilMoisture())+5) {
 
+                                    notificationMessage="Your soil moisture is too low, fix it!";
+
+                                }
+                            }
                         }
-                    }
 
+                    }
 
                     if(d.getKey().toLowerCase().contains("temperature"))
                     {
-
-                        if((Long)d.getValue()>21)
+                        if(currentUser != null && currentUser.getUserPlants().size()>0)
                         {
-                            //Intent intent = new Intent(.this, sensorChangeNotifications.class);
-                           // startService(intent);
+                            for (Plant p : currentUser.getUserPlants())
+                            {
+                                if((Long)d.getValue()>=(p.getActualTemp()+5))
+                                {
+                                    notificationMessage="Your temperature is too high, fix it!";
+                                } else if ((Long)d.getValue()<=(p.getActualTemp()+5)) {
+
+                                    notificationMessage="Your temperature is too low, fix it!";
+
+                                }
+                            }
                         }
+
                         //stopService(new Intent(PlantPage.this, sensorChangeNotifications.class));
                     }
                 }
@@ -77,7 +103,7 @@ public class sensorChangeNotifications extends Service {
 
         // Create notification channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "My Channel", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "The Green Guardian", NotificationManager.IMPORTANCE_DEFAULT);
             mNotificationManager.createNotificationChannel(channel);
         }
     }
@@ -86,20 +112,29 @@ public class sensorChangeNotifications extends Service {
     private NotificationCompat.Builder createNotificationBuilder() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.bell)
-                .setContentTitle("My Notification Title")
-                .setContentText("My Notification Text")
+                .setContentTitle("Check your plant")
+                .setContentText(notificationMessage)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         return builder;
     }
 
     private void showNotification() {
         NotificationCompat.Builder builder = createNotificationBuilder();
-        mNotificationManager.notify(0, builder.build());
+        mNotificationManager.notify(1, builder.build());
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // Show notification
-        showNotification();
+        if(intent !=null && intent.getExtras() != null)
+        {
+            Bundle bundle = intent.getExtras();
+            currentUser=(UserProfile) bundle.getSerializable("currentProfile");
+            if (currentUser != null)
+            {
+                //show notification
+                showNotification();
+            }
+        }
+
 
         return START_STICKY;
     }
@@ -116,4 +151,6 @@ public class sensorChangeNotifications extends Service {
         }
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+
 }

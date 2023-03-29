@@ -129,7 +129,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         startActivity(intent);
 
                         Intent intentNotification = new Intent(LoginActivity.this,sensorChangeNotifications.class);
-                        intentNotification.putExtra("currentProfile", userProfile);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("currentProfile", userProfile);
+                        intentNotification.putExtras(bundle);
+                        startService(intentNotification);
                     }
                     else {
                         Toast.makeText(LoginActivity.this,"Incorrect Password",Toast.LENGTH_LONG).show();

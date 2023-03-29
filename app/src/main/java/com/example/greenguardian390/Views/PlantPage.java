@@ -49,6 +49,8 @@ public class PlantPage extends AppCompatActivity {
         tempInput.setText(String.valueOf(selectedPlant.getActualTemp()));
         soilInput.setText(String.valueOf(selectedPlant.getActualSoilMoisture()));
 
+        stopService(new Intent(this, sensorChangeNotifications.class));
+
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -63,11 +65,9 @@ public class PlantPage extends AppCompatActivity {
                     if(d.getKey().toLowerCase().contains("temperature"))
                     {
                         tempSensor.setText(d.getValue()+"");
-                        if((Long)d.getValue()>21)
-                        {
-                            Intent intent = new Intent(PlantPage.this, sensorChangeNotifications.class);
-                            startService(intent);
-                        }
+                            //Intent intent = new Intent(PlantPage.this, sensorChangeNotifications.class);
+                            //startService(intent);
+
                         //stopService(new Intent(PlantPage.this, sensorChangeNotifications.class));
                     }
 
