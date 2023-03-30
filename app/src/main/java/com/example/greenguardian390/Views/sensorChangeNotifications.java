@@ -41,7 +41,10 @@ public class sensorChangeNotifications extends Service {
 
         //get data here and do threshold here, call notification in login page
 
+        System.out.println("I am in onCreate() in notifications.");
+
         mDatabase = FirebaseDatabase.getInstance().getReference("SenData");
+
 
         //UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");
 
@@ -59,11 +62,12 @@ public class sensorChangeNotifications extends Service {
                             {
                                 if((Long)d.getValue()>=(p.getActualSoilMoisture()+5))
                                 {
-                                    notificationMessage="Your soil moisture is too high, fix it!";
+                                    notificationMessage=String.valueOf(p.getPlantName())+" soil moisture's is too high, fix it!";
+                                    showNotification();
                                 } else if ((Long)d.getValue()<=(p.getActualSoilMoisture())+5) {
 
-                                    notificationMessage="Your soil moisture is too low, fix it!";
-
+                                    notificationMessage=String.valueOf(p.getPlantName())+" soil moisture's is too low, fix it!";
+                                    showNotification();
                                 }
                             }
                         }
@@ -78,11 +82,12 @@ public class sensorChangeNotifications extends Service {
                             {
                                 if((Long)d.getValue()>=(p.getActualTemp()+5))
                                 {
-                                    notificationMessage="Your temperature is too high, fix it!";
+                                    notificationMessage=String.valueOf(p.getPlantName())+" temperature's is too high, fix it!";
+                                    showNotification();
                                 } else if ((Long)d.getValue()<=(p.getActualTemp()+5)) {
 
-                                    notificationMessage="Your temperature is too low, fix it!";
-
+                                    notificationMessage=String.valueOf(p.getPlantName())+" temperature's is too low, fix it!";
+                                    showNotification();
                                 }
                             }
                         }
@@ -110,6 +115,7 @@ public class sensorChangeNotifications extends Service {
 
     // Create notification builder
     private NotificationCompat.Builder createNotificationBuilder() {
+        System.out.println("I am in createNotificationBuilder() in notifications.");
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.bell)
                 .setContentTitle("Check your plant")
@@ -119,11 +125,14 @@ public class sensorChangeNotifications extends Service {
     }
 
     private void showNotification() {
+        System.out.println("I am in showNotifications() in notifications.");
         NotificationCompat.Builder builder = createNotificationBuilder();
         mNotificationManager.notify(1, builder.build());
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        System.out.println("I am in onStartCommand in notifications.");
         if(intent !=null && intent.getExtras() != null)
         {
             Bundle bundle = intent.getExtras();

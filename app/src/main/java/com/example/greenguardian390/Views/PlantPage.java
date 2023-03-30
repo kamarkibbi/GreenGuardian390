@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,11 +21,17 @@ import com.google.firebase.database.ValueEventListener;
 
 import com.example.greenguardian390.R;
 
+import java.util.ArrayList;
+
 public class PlantPage extends AppCompatActivity {
 
     TextView plantName,tempSensor,tempInput,soilSensor,soilInput;
 
     Button deleteButton,helpButton,editButton;
+
+    UserProfile currentuser;
+
+    Plant selectedPlant;
 
     DatabaseReference mDatabase;
     @SuppressLint("MissingInflatedId")
@@ -38,11 +45,14 @@ public class PlantPage extends AppCompatActivity {
         tempInput=findViewById(R.id.tempInput);
         soilSensor=findViewById(R.id.soilSensor);
         soilInput=findViewById(R.id.soilInput);
+        editButton=findViewById(R.id.editButton);
+        deleteButton=findViewById(R.id.deleteButton);
+        helpButton=findViewById(R.id.helpButton);
 
         mDatabase = FirebaseDatabase.getInstance().getReference("SenData");
 
-        UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("CurrentUser");
-        Plant selectedPlant = (Plant) getIntent().getSerializableExtra("plantClicked");
+        currentuser=(UserProfile) getIntent().getSerializableExtra("CurrentUser");
+        selectedPlant = (Plant) getIntent().getSerializableExtra("plantClicked");
 
 
         plantName.setText(selectedPlant.getPlantName());
@@ -79,5 +89,43 @@ public class PlantPage extends AppCompatActivity {
 
             }
         });
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(PlantPage.this,AddPlantPage.class);
+                intent.putExtra("CurrentUser",currentuser);
+                intent.putExtra("plantClicked", selectedPlant);
+                startActivity(intent);
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deletePlant();
+                Intent intent=new Intent(PlantPage.this,MainPage.class);
+                intent.putExtra("currentProfile",currentuser);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void deletePlant()
+    {
+        ArrayList<Plant> currentUserPlants=currentuser.getUserPlants();
+        int indexOfPlant=0;
+        for (int i=0; i< currentUserPlants.size(); i++)
+        {
+            if (currentUserPlants.get(i)==selectedPlant)
+            {
+                indexOfPlant=i;
+                break;
+            }
+        }
+
+        currentUserPlants.remove(indexOfPlant);
+        mDatabase=FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("userProfile").child(currentuser.getUsername()).child("userPlants").setValue(currentUserPlants);
     }
 }

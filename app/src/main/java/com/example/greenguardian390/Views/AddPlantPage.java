@@ -43,6 +43,10 @@ public class AddPlantPage extends AppCompatActivity {
     private Button save;
 
     private Button cancel;
+
+    private UserProfile currentuser;
+
+    private Plant selectedPlant;
     ProgressBar progressBar;
 
     @SuppressLint("MissingInflatedId")
@@ -50,10 +54,6 @@ public class AddPlantPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_plant_page);
-
-        /*selectedImage = findViewById(R.id.ImageView);
-        CameraButton = findViewById(R.id.CameraButton);
-        GalleryButton = findViewById(R.id.GalleryButton);*/
 
         mDatabase= FirebaseDatabase.getInstance().getReference();
 
@@ -66,14 +66,46 @@ public class AddPlantPage extends AppCompatActivity {
         moisture = findViewById(R.id.AddSoilEditText);
         progressBar=findViewById(R.id.progressBarRegister);
 
+        selectedPlant = (Plant) getIntent().getSerializableExtra("plantClicked");
+        if(selectedPlant!=null)
+        {
+            name.setText(selectedPlant.getPlantName());
+            temperature.setText(String.valueOf(selectedPlant.getActualTemp()));
+            moisture.setText(String.valueOf(selectedPlant.getActualSoilMoisture()));
+        }
+
+        /*selectedImage = findViewById(R.id.ImageView);
+        CameraButton = findViewById(R.id.CameraButton);
+        GalleryButton = findViewById(R.id.GalleryButton);*/
+
+
+
+//        System.out.println(selectedPlant.getPlantName());
+   //     System.out.println(selectedPlant.getActualSoilMoisture());
+   //     System.out.println(selectedPlant.getActualTemp());
+
+      //  System.out.println("I am in addplantpage coming from plant page");
+
+
+
+
+
+
     }
 
     public void onClick(View view)
     {
         switch (view.getId()){
             case R.id.Savebutton:
-                addPlantToProfile();
-
+                selectedPlant = (Plant) getIntent().getSerializableExtra("plantClicked");
+                if(selectedPlant!=null)
+                {
+                    editPlant();
+                }
+                else
+                {
+                    addPlantToProfile();
+                }
                 break;
         }
 
@@ -87,6 +119,40 @@ public class AddPlantPage extends AppCompatActivity {
         }
     }
 
+    public void editPlant()
+    {
+        currentuser=(UserProfile) getIntent().getSerializableExtra("CurrentUser");
+        selectedPlant = (Plant) getIntent().getSerializableExtra("plantClicked");
+
+        if(selectedPlant !=null)
+        {
+            Plant newPlant =new Plant();
+            ArrayList<Plant> currentUserPlants=currentuser.getUserPlants();
+            int indexOfPlant=0;
+            for (int i=0; i< currentUserPlants.size(); i++)
+            {
+                if (currentUserPlants.get(i).getPlantName().equals(selectedPlant.getPlantName()))
+                {
+                    indexOfPlant=i;
+                    break;
+                }
+            }
+
+
+            currentUserPlants.remove(indexOfPlant);
+
+            newPlant.setPlantName(name.getText().toString());
+            newPlant.setActualSoilMoisture(Float.parseFloat(moisture.getText().toString()));
+            newPlant.setActualTemp(Float.parseFloat(temperature.getText().toString()));
+
+            currentUserPlants.add(indexOfPlant,newPlant);
+
+            mDatabase=FirebaseDatabase.getInstance().getReference();
+            mDatabase.child("userProfile/"+currentuser.getUsername()+"/userPlants").setValue(currentUserPlants);
+
+
+        }
+    }
 
     public void addPlantToProfile()
     {
