@@ -2,6 +2,7 @@ package com.example.greenguardian390.Views;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
@@ -31,6 +32,8 @@ public class sensorChangeNotifications extends Service {
     private UserProfile currentUser;
 
     DatabaseReference mDatabase;
+
+    private int notificationId = 0;
 
     public sensorChangeNotifications() {
     }
@@ -63,11 +66,13 @@ public class sensorChangeNotifications extends Service {
                                 if((Long)d.getValue()>=(p.getActualSoilMoisture()+5))
                                 {
                                     notificationMessage=String.valueOf(p.getPlantName())+" soil moisture's is too high, fix it!";
-                                    showNotification();
-                                } else if ((Long)d.getValue()<=(p.getActualSoilMoisture())+5) {
+                                    showNotification(notificationId);
+                                    notificationId++;
+                                } else if ((Long)d.getValue()<=(p.getActualSoilMoisture())-5) {
 
                                     notificationMessage=String.valueOf(p.getPlantName())+" soil moisture's is too low, fix it!";
-                                    showNotification();
+                                    showNotification(notificationId);
+                                    notificationId++;
                                 }
                             }
                         }
@@ -83,11 +88,13 @@ public class sensorChangeNotifications extends Service {
                                 if((Long)d.getValue()>=(p.getActualTemp()+5))
                                 {
                                     notificationMessage=String.valueOf(p.getPlantName())+" temperature's is too high, fix it!";
-                                    showNotification();
-                                } else if ((Long)d.getValue()<=(p.getActualTemp()+5)) {
+                                    showNotification(notificationId);
+                                    notificationId++;
+                                } else if ((Long)d.getValue()<=(p.getActualTemp()-5)) {
 
                                     notificationMessage=String.valueOf(p.getPlantName())+" temperature's is too low, fix it!";
-                                    showNotification();
+                                    showNotification(notificationId);
+                                    notificationId++;
                                 }
                             }
                         }
@@ -124,10 +131,19 @@ public class sensorChangeNotifications extends Service {
         return builder;
     }
 
-    private void showNotification() {
-        System.out.println("I am in showNotifications() in notifications.");
+    private void showNotification(int notificationId) {
+
         NotificationCompat.Builder builder = createNotificationBuilder();
-        mNotificationManager.notify(1, builder.build());
+
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, notificationId, intent, PendingIntent.FLAG_MUTABLE);
+        builder.setContentIntent(pendingIntent);
+
+        mNotificationManager.notify(notificationId, builder.build());
+
+        /*System.out.println("I am in showNotifications() in notifications.");
+        NotificationCompat.Builder builder = createNotificationBuilder();
+        mNotificationManager.notify(1, builder.build());*/
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -139,8 +155,7 @@ public class sensorChangeNotifications extends Service {
             currentUser=(UserProfile) bundle.getSerializable("currentProfile");
             if (currentUser != null)
             {
-                //show notification
-                showNotification();
+
             }
         }
 
@@ -154,7 +169,7 @@ public class sensorChangeNotifications extends Service {
         // TODO: Return the communication channel to the service.
         //thread.sleep for 1 min (google how to for service)
         try {
-            Thread.sleep(60000);
+            Thread.sleep(30000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
