@@ -141,6 +141,11 @@ public class sensorChangeNotifications extends Service {
 
         mNotificationManager.notify(notificationId, builder.build());
 
+        Intent intent1 = new Intent(this,MainPage.class);
+        intent1.putExtra("notificationId",notificationId);
+
+        //mNotificationManager.cancel(notificationId);
+
         /*System.out.println("I am in showNotifications() in notifications.");
         NotificationCompat.Builder builder = createNotificationBuilder();
         mNotificationManager.notify(1, builder.build());*/

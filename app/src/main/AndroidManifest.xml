@@ -32,9 +32,11 @@
             android:exported="false" />
         <activity
             android:name=".Views.LoginActivity"
+            android:parentActivityName=".Views.MainActivity"
             android:exported="false" />
         <activity
             android:name=".Views.RegisterActivity"
+            android:parentActivityName=".Views.MainActivity"
             android:exported="false" />
         <activity
             android:name=".Views.MainPage"

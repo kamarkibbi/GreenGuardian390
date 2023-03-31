@@ -3,6 +3,8 @@ package com.example.greenguardian390.Views;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,8 +24,12 @@ import java.util.ArrayList;
 
 public class MainPage extends AppCompatActivity {
 
-
+    static final int REQUEST_CODE = 1;
+    private NotificationManager notificationManager;
+    private int notificationId;
     private Button button;
+
+    private UserProfile currentuser;
 
     ListView listView;
 
@@ -34,9 +40,15 @@ public class MainPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainpage);
 
+        //finish();
+
+        //notificationId = getIntent().getIntExtra("notificationId",0);
+        //notificationManager=(NotificationManager) getSystemService(Context.)
+
+
         listView=findViewById(R.id.userPlants);
 
-        UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");
+        currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");
 
 
         ArrayList<Plant> currentUserPlants=currentuser.getUserPlants();
@@ -89,6 +101,7 @@ public class MainPage extends AppCompatActivity {
             }
         });
     }
+
 
 
     public void openAddPlantPage() {

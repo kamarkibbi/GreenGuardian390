@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.greenguardian390.Models.Plant;
@@ -26,12 +27,14 @@ import java.util.ArrayList;
 public class PlantPage extends AppCompatActivity {
 
     TextView plantName,tempSensor,tempInput,soilSensor,soilInput;
-
+    ImageButton backArrow;
     Button deleteButton,helpButton,editButton;
 
     UserProfile currentuser;
 
     Plant selectedPlant;
+
+
 
     DatabaseReference mDatabase;
     @SuppressLint("MissingInflatedId")
@@ -40,6 +43,8 @@ public class PlantPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_page);
 
+
+         backArrow=findViewById(R.id.backButton);
         plantName=findViewById(R.id.plantName);
         tempSensor=findViewById(R.id.tempSensor);
         tempInput=findViewById(R.id.tempInput);
@@ -55,11 +60,13 @@ public class PlantPage extends AppCompatActivity {
         selectedPlant = (Plant) getIntent().getSerializableExtra("plantClicked");
 
 
+
         plantName.setText(selectedPlant.getPlantName());
         tempInput.setText(String.valueOf(selectedPlant.getActualTemp()));
         soilInput.setText(String.valueOf(selectedPlant.getActualSoilMoisture()));
 
         stopService(new Intent(this, sensorChangeNotifications.class));
+
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -104,6 +111,15 @@ public class PlantPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 deletePlant();
+                Intent intent=new Intent(PlantPage.this,MainPage.class);
+                intent.putExtra("currentProfile",currentuser);
+                startActivity(intent);
+            }
+        });
+
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Intent intent=new Intent(PlantPage.this,MainPage.class);
                 intent.putExtra("currentProfile",currentuser);
                 startActivity(intent);
