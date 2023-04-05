@@ -5,15 +5,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="#958383"
+    android:background="@drawable/background_color"
     android:orientation="vertical">
 
+
+    <TextView
+        android:layout_width="223dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="100dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Add/Edit A Plant "
+        android:textSize="28sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="60dp"
         android:fontFamily="sans-serif-black"
         android:text="Tips:"/>
 
@@ -36,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         android:fontFamily="sans-serif-black"
         android:inputType="textPersonName"
         android:hint="Add plant name:"
@@ -73,7 +82,9 @@
         android:id="@+id/Savebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="70dp"
+        android:fontFamily="sans-serif-black"
+        android:background="@drawable/oval_button_shape"
         android:layout_marginTop="10dp"
         android:text="SAVE"
         android:textSize="16sp" />
@@ -84,6 +95,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/oval_button_shape"
+        android:fontFamily="sans-serif-black"
         android:text="CANCEL"
         android:textSize="16sp" />
     </LinearLayout>

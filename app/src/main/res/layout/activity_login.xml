@@ -27,7 +27,7 @@
         android:id="@+id/UserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="100dp"
         android:textColorHint="#FF000000"
         android:padding="48dp"
         android:textSize="18sp"
@@ -50,7 +50,7 @@
 
     <Button
         android:id="@+id/Login1"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#e6e9f0"

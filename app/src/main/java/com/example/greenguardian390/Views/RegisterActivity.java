@@ -121,10 +121,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             }
                         }
                     });
-                } else if (userProfile != null)
+                }
+                else if (userProfile != null)
                 {
-                    Toast.makeText(RegisterActivity.this,"Registration Failed! Account already exists.",Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
+                    System.out.println("I am in else if statement of userprofile != null");
+                   // Toast.makeText(RegisterActivity.this,"Registration Failed! Account already exists.",Toast.LENGTH_LONG).show();
+                   // progressBar.setVisibility(View.GONE);
                 }
 
             }

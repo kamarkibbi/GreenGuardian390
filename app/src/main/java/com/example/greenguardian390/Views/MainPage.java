@@ -3,6 +3,7 @@ package com.example.greenguardian390.Views;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +28,7 @@ public class MainPage extends AppCompatActivity {
     static final int REQUEST_CODE = 1;
     private NotificationManager notificationManager;
     private int notificationId;
-    private Button button;
+    private Button button, logout;
 
     private UserProfile currentuser;
 
@@ -35,6 +36,7 @@ public class MainPage extends AppCompatActivity {
 
 
 //    UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,17 @@ public class MainPage extends AppCompatActivity {
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, plantNames);
             listView.setAdapter(adapter);
         }
+
+        logout=findViewById(R.id.logoutButton);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainPage.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         button = (Button) findViewById(R.id.AddPlantButton);
         button.setOnClickListener(new View.OnClickListener() {

@@ -63,12 +63,12 @@ public class sensorChangeNotifications extends Service {
                         {
                             for (Plant p : currentUser.getUserPlants())
                             {
-                                if((Long)d.getValue()>=(p.getActualSoilMoisture()+5))
+                                if((Long)d.getValue()>=(p.getActualSoilMoisture()+40))
                                 {
                                     notificationMessage=String.valueOf(p.getPlantName())+" soil moisture's is too high, fix it!";
                                     showNotification(notificationId);
                                     notificationId++;
-                                } else if ((Long)d.getValue()<=(p.getActualSoilMoisture())-5) {
+                                } else if ((Long)d.getValue()<=(p.getActualSoilMoisture())-40) {
 
                                     notificationMessage=String.valueOf(p.getPlantName())+" soil moisture's is too low, fix it!";
                                     showNotification(notificationId);
@@ -85,12 +85,12 @@ public class sensorChangeNotifications extends Service {
                         {
                             for (Plant p : currentUser.getUserPlants())
                             {
-                                if((Long)d.getValue()>=(p.getActualTemp()+5))
+                                if((Double)d.getValue()>=(p.getActualTemp()+5))
                                 {
                                     notificationMessage=String.valueOf(p.getPlantName())+" temperature's is too high, fix it!";
                                     showNotification(notificationId);
                                     notificationId++;
-                                } else if ((Long)d.getValue()<=(p.getActualTemp()-5)) {
+                                } else if ((Double)d.getValue()<=(p.getActualTemp()-5)) {
 
                                     notificationMessage=String.valueOf(p.getPlantName())+" temperature's is too low, fix it!";
                                     showNotification(notificationId);

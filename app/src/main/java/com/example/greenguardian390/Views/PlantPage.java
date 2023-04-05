@@ -31,7 +31,6 @@ public class PlantPage extends AppCompatActivity {
     Button deleteButton,helpButton,editButton;
 
     UserProfile currentuser;
-
     Plant selectedPlant;
 
 
@@ -122,6 +121,16 @@ public class PlantPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(PlantPage.this,MainPage.class);
                 intent.putExtra("currentProfile",currentuser);
+                startActivity(intent);
+            }
+        });
+
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(PlantPage.this,helpPage.class);
+                intent.putExtra("CurrentUser",currentuser);
+                intent.putExtra("plantClicked", selectedPlant);
                 startActivity(intent);
             }
         });
