@@ -28,7 +28,8 @@
 
         <activity
             android:name=".Views.ForgetPassword"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".Views.LoginActivity"/>
         <activity
             android:name=".Views.PlantPage"
             android:exported="false" />

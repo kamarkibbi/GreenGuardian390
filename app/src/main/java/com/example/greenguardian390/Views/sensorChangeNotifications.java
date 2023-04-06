@@ -49,6 +49,7 @@ public class sensorChangeNotifications extends Service {
         mDatabase = FirebaseDatabase.getInstance().getReference("SenData");
 
 
+
         //UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");
 
         mDatabase.addValueEventListener(new ValueEventListener() {
@@ -59,21 +60,33 @@ public class sensorChangeNotifications extends Service {
                 {
                     if (d.getKey().toLowerCase().contains("moisture"))
                     {
+                        long currentTime = System.currentTimeMillis();
+                        Number value = (Number)d.getValue();
                         if(currentUser != null && currentUser.getUserPlants().size()>0)
                         {
                             for (Plant p : currentUser.getUserPlants())
                             {
-                                if((Long)d.getValue()>=(p.getActualSoilMoisture()+40))
+                                if(currentTime - p.getLastNotificationTime() >= 60000)
                                 {
-                                    notificationMessage=String.valueOf(p.getPlantName())+" soil moisture's is too high, fix it!";
-                                    showNotification(notificationId);
-                                    notificationId++;
-                                } else if ((Long)d.getValue()<=(p.getActualSoilMoisture())-40) {
+                                    if(value.floatValue()>=(p.getActualSoilMoisture()+40))
+                                    {
+                                        // 1 min in milliseconds
+                                        p.setLastNotificationTime(currentTime);
+                                        notificationMessage = String.valueOf(p.getPlantName()) + " soil moisture's is too high, fix it!";
+                                        showNotification(notificationId);
+                                        notificationId++;
 
-                                    notificationMessage=String.valueOf(p.getPlantName())+" soil moisture's is too low, fix it!";
-                                    showNotification(notificationId);
-                                    notificationId++;
+                                    } else if (value.floatValue()<=(p.getActualSoilMoisture())-40) {
+
+                                         // 1 min in milliseconds
+                                            p.setLastNotificationTime(currentTime);
+                                            notificationMessage = String.valueOf(p.getPlantName()) + " soil moisture's is too low, fix it!";
+                                            showNotification(notificationId);
+                                            notificationId++;
+
+                                    }
                                 }
+
                             }
                         }
 
@@ -81,17 +94,29 @@ public class sensorChangeNotifications extends Service {
 
                     if(d.getKey().toLowerCase().contains("temperature"))
                     {
+                        long currentTime = System.currentTimeMillis();
+                        Number value = (Number)d.getValue();
                         if(currentUser != null && currentUser.getUserPlants().size()>0)
                         {
                             for (Plant p : currentUser.getUserPlants())
                             {
-                                if((Double)d.getValue()>=(p.getActualTemp()+5))
+                                if (currentTime - p.getLastNotificationTime() >= 60000)
                                 {
-                                    notificationMessage=String.valueOf(p.getPlantName())+" temperature's is too high, fix it!";
-                                    showNotification(notificationId);
-                                    notificationId++;
-                                } else if ((Double)d.getValue()<=(p.getActualTemp()-5)) {
 
+                                }
+                                if(value.floatValue()>=(p.getActualTemp()+5))
+                                {
+
+
+                                        p.setLastNotificationTime(currentTime);
+                                        notificationMessage=String.valueOf(p.getPlantName())+" temperature's is too high, fix it!";
+                                        showNotification(notificationId);
+                                        notificationId++;
+
+
+                                } else if (value.floatValue()<=(p.getActualTemp()-5)) {
+
+                                    p.setLastNotificationTime(currentTime);
                                     notificationMessage=String.valueOf(p.getPlantName())+" temperature's is too low, fix it!";
                                     showNotification(notificationId);
                                     notificationId++;
@@ -174,7 +199,7 @@ public class sensorChangeNotifications extends Service {
         // TODO: Return the communication channel to the service.
         //thread.sleep for 1 min (google how to for service)
         try {
-            Thread.sleep(30000);
+            Thread.sleep(60000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

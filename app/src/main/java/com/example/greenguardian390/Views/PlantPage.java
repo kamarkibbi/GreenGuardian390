@@ -64,7 +64,7 @@ public class PlantPage extends AppCompatActivity {
         tempInput.setText(String.valueOf(selectedPlant.getActualTemp()));
         soilInput.setText(String.valueOf(selectedPlant.getActualSoilMoisture()));
 
-        stopService(new Intent(this, sensorChangeNotifications.class));
+        //stopService(new Intent(this, sensorChangeNotifications.class));
 
 
         mDatabase.addValueEventListener(new ValueEventListener() {
@@ -142,7 +142,7 @@ public class PlantPage extends AppCompatActivity {
         int indexOfPlant=0;
         for (int i=0; i< currentUserPlants.size(); i++)
         {
-            if (currentUserPlants.get(i)==selectedPlant)
+            if (currentUserPlants.get(i).getPlantName().equals(selectedPlant.getPlantName()))
             {
                 indexOfPlant=i;
                 break;

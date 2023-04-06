@@ -9,6 +9,8 @@ public class Plant implements Serializable {
 
     public float actualSoilMoisture,actualTemp;
 
+    public long lastNotificationTime;
+
     public String plantName;
 
    // public ImageView plantImage;
@@ -22,6 +24,7 @@ public class Plant implements Serializable {
         this.actualSoilMoisture=s;
         this.actualTemp=t;
         this.plantName=n;
+        this.lastNotificationTime=0;
        // this.plantImage=i; , ImageView i
     }
 
@@ -47,6 +50,16 @@ public class Plant implements Serializable {
 
     public void setPlantName(String plantName) {
         this.plantName = plantName;
+    }
+
+    public void setLastNotificationTime(long t)
+    {
+        this.lastNotificationTime=t;
+    }
+
+    public long getLastNotificationTime()
+    {
+        return lastNotificationTime;
     }
 
     /*

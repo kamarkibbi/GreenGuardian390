@@ -136,9 +136,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         intentNotification.putExtras(bundle);
                         startService(intentNotification);
                     }
-                    else {
+                    /*else {
                         Toast.makeText(LoginActivity.this,"Incorrect Password",Toast.LENGTH_LONG).show();
-                    }
+                    }*/
 
                 }else {
                     Toast.makeText(LoginActivity.this,"Please check username spelling or create account in register page",Toast.LENGTH_LONG).show();

@@ -76,6 +76,7 @@ public class MainPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(MainPage.this,MainActivity.class);
                 startActivity(intent);
+                stopService(new Intent(MainPage.this, sensorChangeNotifications.class));
                 finish();
             }
         });
@@ -126,6 +127,7 @@ public class MainPage extends AppCompatActivity {
         //listView = findViewById(R.id.listview);
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -147,6 +149,6 @@ public class MainPage extends AppCompatActivity {
             }
         });
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
 
 }

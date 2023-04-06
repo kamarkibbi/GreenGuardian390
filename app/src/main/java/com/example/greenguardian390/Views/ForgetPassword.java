@@ -36,6 +36,7 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         userName=findViewById(R.id.UserNamePassword);
         email=findViewById(R.id.EmailPassword);
