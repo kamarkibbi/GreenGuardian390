@@ -1,3 +1,4 @@
+//Plant: This class defines the plant object along with the lastNotificationTime used in sensorChangeNotifications
 package com.example.greenguardian390.Models;
 
 import android.media.Image;
@@ -13,7 +14,6 @@ public class Plant implements Serializable {
 
     public String plantName;
 
-   // public ImageView plantImage;
 
     public Plant()
     {
@@ -25,7 +25,6 @@ public class Plant implements Serializable {
         this.actualTemp=t;
         this.plantName=n;
         this.lastNotificationTime=0;
-       // this.plantImage=i; , ImageView i
     }
 
     public float getActualSoilMoisture() {
@@ -62,12 +61,4 @@ public class Plant implements Serializable {
         return lastNotificationTime;
     }
 
-    /*
-    public ImageView getPlantImage() {
-        return plantImage;
-    }
-
-    public void setPlantImage(ImageView plantImage) {
-        this.plantImage = plantImage;
-    }*/
 }

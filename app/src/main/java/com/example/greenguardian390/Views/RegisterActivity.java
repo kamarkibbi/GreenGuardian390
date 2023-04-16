@@ -1,3 +1,4 @@
+//Registration Page: User registers for their account
 package com.example.greenguardian390.Views;
 
 import androidx.annotation.NonNull;
@@ -39,7 +40,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_register);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //mDatabase=FirebaseDatabase.getInstance().getReference();
 
         HitRegister=findViewById(R.id.Register_button);
         userName=findViewById(R.id.UserName);
@@ -47,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         editPassword=findViewById(R.id.Password1);
         progressBar=findViewById(R.id.progressBarRegister);
 
-        HitRegister.setOnClickListener(this);
+        HitRegister.setOnClickListener(this); //register button clicked, go to HitRegister function
 
 
     }
@@ -64,10 +64,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
     private void HitRegister() {
+        //User inputs are converted to string
         String user=userName.getText().toString().trim();
         String Email=editEmail.getText().toString().trim();
         String Password=editPassword.getText().toString().trim();
 
+        //Error messages to not let user register without filling in proper requirements
         if(user.isEmpty()){
             userName.setError("Username is Required!");
             userName.requestFocus();
@@ -95,12 +97,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
         progressBar.setVisibility(View.VISIBLE);
 
+        //Check to see if account already exists in database
         mDatabase= FirebaseDatabase.getInstance().getReference("userProfile/"+user);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserProfile userProfile= snapshot.getValue(UserProfile.class);
 
+                //if the user does not exist in database
+                //let them register
                 if(userProfile==null)
                 {
                     mDatabase=FirebaseDatabase.getInstance().getReference();
@@ -124,7 +129,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
                 else if (userProfile != null)
                 {
-                    System.out.println("I am in else if statement of userprofile != null");
+                    //If user already exists don't let them register
                    // Toast.makeText(RegisterActivity.this,"Registration Failed! Account already exists.",Toast.LENGTH_LONG).show();
                    // progressBar.setVisibility(View.GONE);
                 }
@@ -137,45 +142,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-
-
-
-
-
-        //Tanzila code, used authentication database, ours is real-time database
-       /* mAuth.createUserWithEmailAndPassword(Email,Password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            User user=new User(Name,Email);
-
-                            FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(RegisterActivity.this,"User has been register successfully",Toast.LENGTH_LONG).show();
-                                                progressBar.setVisibility(View.VISIBLE);
-                                                startActivity(new Intent(RegisterActivity.this,IntroActivity.class));
-                                            }
-                                            else {
-                                                Toast.makeText(RegisterActivity.this,"Registration Failed! Please try again.",Toast.LENGTH_LONG).show();
-                                                progressBar.setVisibility(View.GONE);
-
-                                            }
-                                        }
-                                    });
-                        }
-                        else{
-                            Toast.makeText(RegisterActivity.this," Something went wrong  ",Toast.LENGTH_LONG).show();
-                            progressBar.setVisibility(View.GONE);
-                            startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
-
-                        }
-                    }
-                });*/
     }
 
 }

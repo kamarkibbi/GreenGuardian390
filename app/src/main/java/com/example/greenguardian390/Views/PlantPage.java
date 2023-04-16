@@ -1,3 +1,4 @@
+//Plant Page: It shows the selected plant's details and shows the current data coming from the sensors
 package com.example.greenguardian390.Views;
 
 import androidx.annotation.NonNull;
@@ -55,18 +56,19 @@ public class PlantPage extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference("SenData");
 
+        //get the current profile logged in and the plant that the user clicked on from Main Page
         currentuser=(UserProfile) getIntent().getSerializableExtra("CurrentUser");
         selectedPlant = (Plant) getIntent().getSerializableExtra("plantClicked");
 
 
-
+        //set the information of the plant onto the page
         plantName.setText(selectedPlant.getPlantName());
         tempInput.setText(String.valueOf(selectedPlant.getActualTemp()));
         soilInput.setText(String.valueOf(selectedPlant.getActualSoilMoisture()));
 
-        //stopService(new Intent(this, sensorChangeNotifications.class));
 
 
+        //get the sensor data from firebase and display them onto the page
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -81,10 +83,6 @@ public class PlantPage extends AppCompatActivity {
                     if(d.getKey().toLowerCase().contains("temperature"))
                     {
                         tempSensor.setText(d.getValue()+"");
-                            //Intent intent = new Intent(PlantPage.this, sensorChangeNotifications.class);
-                            //startService(intent);
-
-                        //stopService(new Intent(PlantPage.this, sensorChangeNotifications.class));
                     }
 
                 }
@@ -96,6 +94,8 @@ public class PlantPage extends AppCompatActivity {
             }
         });
 
+        //If user clicks on edit button, take them to AddPlantPage and send
+        //the current profile logged in and the plant selected to the AddPlantPage too
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +106,8 @@ public class PlantPage extends AppCompatActivity {
             }
         });
 
+        //If user clicks on delete button, execute deletePlant function
+        //and take user to MainPage and send the current profile to Main Page
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,6 +118,7 @@ public class PlantPage extends AppCompatActivity {
             }
         });
 
+        //If user clicks on the back arrow, they are taken to MainPage and the current profile logged in is sent to MainPage
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,6 +128,8 @@ public class PlantPage extends AppCompatActivity {
             }
         });
 
+        //If user clicks on help button, take them to helpPage and send
+        //the current profile logged in and the plant selected to the helpPage too
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,6 +141,9 @@ public class PlantPage extends AppCompatActivity {
         });
     }
 
+    //Below function is to delete the plant the user is currently on
+    //First we define indexOfPlant and then search the arraylist for the index of selected plant's name
+    //when found, we delete the plant that is at that index and update the user's plants in database
     public void deletePlant()
     {
         ArrayList<Plant> currentUserPlants=currentuser.getUserPlants();

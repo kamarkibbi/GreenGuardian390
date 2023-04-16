@@ -1,3 +1,5 @@
+//Notifications Background Service: Implements the notifications shown in app after user logs in
+
 package com.example.greenguardian390.Views;
 
 import android.app.NotificationChannel;
@@ -42,15 +44,9 @@ public class sensorChangeNotifications extends Service {
     public void onCreate() {
         super.onCreate();
 
-        //get data here and do threshold here, call notification in login page
-
-        System.out.println("I am in onCreate() in notifications.");
-
+        //get sensor data from firebase and send notifications when sensor data is above plants' values thresholds
         mDatabase = FirebaseDatabase.getInstance().getReference("SenData");
 
-
-
-        //UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -62,8 +58,12 @@ public class sensorChangeNotifications extends Service {
                     {
                         long currentTime = System.currentTimeMillis();
                         Number value = (Number)d.getValue();
+                        //check if the user is logged in and has plants
                         if(currentUser != null && currentUser.getUserPlants().size()>0)
                         {
+                            //for each plant if the plant's current soil moisture (sensor data)
+                            // is higher by 40 + plant type's soil moisture or lower by 40 - plant type's soil moisture than plant type's soil moisture
+                            // and 1 minute has passed then send a notification
                             for (Plant p : currentUser.getUserPlants())
                             {
                                 if(currentTime - p.getLastNotificationTime() >= 60000)
@@ -96,35 +96,37 @@ public class sensorChangeNotifications extends Service {
                     {
                         long currentTime = System.currentTimeMillis();
                         Number value = (Number)d.getValue();
+                        //check if the user is logged in and has plants
                         if(currentUser != null && currentUser.getUserPlants().size()>0)
                         {
                             for (Plant p : currentUser.getUserPlants())
                             {
+                                //for each plant if the plant's current temperature (sensor data)
+                                // is higher by 5 + plant type's temperature or lower by 5 - plant type's temperature than plant type's temperature
+                                // and 1 minute has passed then send a notification
                                 if (currentTime - p.getLastNotificationTime() >= 60000)
                                 {
-
-                                }
-                                if(value.floatValue()>=(p.getActualTemp()+5))
-                                {
-
-
+                                    if(value.floatValue()>=(p.getActualTemp()+5))
+                                    {
                                         p.setLastNotificationTime(currentTime);
                                         notificationMessage=String.valueOf(p.getPlantName())+" temperature's is too high, fix it!";
                                         showNotification(notificationId);
                                         notificationId++;
 
 
-                                } else if (value.floatValue()<=(p.getActualTemp()-5)) {
+                                    } else if (value.floatValue()<=(p.getActualTemp()-5)) {
 
-                                    p.setLastNotificationTime(currentTime);
-                                    notificationMessage=String.valueOf(p.getPlantName())+" temperature's is too low, fix it!";
-                                    showNotification(notificationId);
-                                    notificationId++;
+                                        p.setLastNotificationTime(currentTime);
+                                        notificationMessage=String.valueOf(p.getPlantName())+" temperature's is too low, fix it!";
+                                        showNotification(notificationId);
+                                        notificationId++;
+                                    }
                                 }
+
                             }
                         }
 
-                        //stopService(new Intent(PlantPage.this, sensorChangeNotifications.class));
+
                     }
                 }
 
@@ -169,11 +171,7 @@ public class sensorChangeNotifications extends Service {
         Intent intent1 = new Intent(this,MainPage.class);
         intent1.putExtra("notificationId",notificationId);
 
-        //mNotificationManager.cancel(notificationId);
 
-        /*System.out.println("I am in showNotifications() in notifications.");
-        NotificationCompat.Builder builder = createNotificationBuilder();
-        mNotificationManager.notify(1, builder.build());*/
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -197,7 +195,7 @@ public class sensorChangeNotifications extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
-        //thread.sleep for 1 min (google how to for service)
+        //thread.sleep for 1 min
         try {
             Thread.sleep(60000);
         } catch (InterruptedException e) {

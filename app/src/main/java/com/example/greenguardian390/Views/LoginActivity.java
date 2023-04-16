@@ -1,3 +1,4 @@
+//Login Page: Page that lets the user log into their account
 package com.example.greenguardian390.Views;
 
 import static android.content.ContentValues.TAG;
@@ -59,10 +60,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mUsername=findViewById(R.id.UserName);
         mPassword=findViewById(R.id.PassWord);
 
+        //when user clicks on login button
         HitLogin=findViewById(R.id.Login1);
         HitLogin.setOnClickListener(this);
 
         progressBar=findViewById(R.id.progressBarLogin);
+        //when user clicks on forgot password
         forgotPassword=findViewById(R.id.ForgotPassword);
         forgotPassword.setOnClickListener(this);
 
@@ -72,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.Login1:
-                userLogin();
+                userLogin(); //when user clicks on login button, execute userLogin function
                 break;
         }
 
@@ -87,16 +90,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String usernameInputted=mUsername.getText().toString().trim();
         String password=mPassword.getText().toString().trim();
 
+        //make sure user enters all info correctly
         if (usernameInputted.isEmpty()){
             mUsername.setError("username is mandatory");
             mUsername.requestFocus();
             return;
         }
-        /*if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            mUsername.setError("Please enter a valid email id");
-            mUsername.requestFocus();
-            return;
-        }*/
         if(password.isEmpty()){
             mPassword.setError("Password is required");
             mPassword.requestFocus();
@@ -109,15 +108,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         progressBar.setVisibility(View.VISIBLE);
 
-
+        //get the current profile object from database
         mDatabase= FirebaseDatabase.getInstance().getReference("userProfile/"+usernameInputted);
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-               // System.out.println("on data change called");
-
+                //if user exists in database, let them log in and take them to main page,
+                // and send the current profile to the main page
+                //and start the notifications service
                 UserProfile userProfile= snapshot.getValue(UserProfile.class);
 
                 if(userProfile!=null) {

@@ -1,3 +1,4 @@
+//Help Page: Tips and advice for user on how to use the sensor readings to care for plants
 package com.example.greenguardian390.Views;
 
 import androidx.appcompat.app.AppCompatActivity;

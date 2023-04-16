@@ -1,3 +1,4 @@
+//MainActivity: First Page user sees, the user either clicks login or register
 package com.example.greenguardian390.Views;
 
 import androidx.appcompat.app.AppCompatActivity;

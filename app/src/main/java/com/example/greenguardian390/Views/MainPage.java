@@ -1,3 +1,6 @@
+//Main Page: Page that shows the user their plants
+//Each plant lets the user go to that plant's page
+//Also lets user either logout or go to add a plant page
 package com.example.greenguardian390.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,25 +37,20 @@ public class MainPage extends AppCompatActivity {
 
     ListView listView;
 
-
-//    UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainpage);
 
-        //finish();
-
-        //notificationId = getIntent().getIntExtra("notificationId",0);
-        //notificationManager=(NotificationManager) getSystemService(Context.)
 
 
         listView=findViewById(R.id.userPlants);
 
+        //get the current profile logged in
         currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");
 
-
+        //get the user's plants and display them onto the page
         ArrayList<Plant> currentUserPlants=currentuser.getUserPlants();
 
         ArrayList<String> plantNames=new ArrayList<>();
@@ -70,7 +68,7 @@ public class MainPage extends AppCompatActivity {
         }
 
         logout=findViewById(R.id.logoutButton);
-
+        //let the user logout and stop the notifications service once they log out
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,19 +79,20 @@ public class MainPage extends AppCompatActivity {
             }
         });
 
+        //when add a plant button is clicked, execute openAddPlantPage function
         button = (Button) findViewById(R.id.AddPlantButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //Intent intent =new Intent(MainPage.this,PlantPage.class);
-                //startActivity(intent);
                 openAddPlantPage();
 
 
             }
         });
 
+        //when a plant in the list is clicked, first we search in the arraylist which plant was clicked
+        //then the user goes to the plant page and sends the current profile and the plant selected.
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -117,38 +116,14 @@ public class MainPage extends AppCompatActivity {
     }
 
 
-
+    //when user clicks on add a plant button, they are taken to add a plant page
+    //current profile is sent to that page
     public void openAddPlantPage() {
         UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("currentProfile");
-        System.out.println(currentuser.getUsername());
         Intent intent = new Intent(this, AddPlantPage.class);
         intent.putExtra("CurrentUser", currentuser);
         startActivity(intent);
-        //listView = findViewById(R.id.listview);
     }
 
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu,menu);
-
-        MenuItem menuItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Type name of plant here");
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
-    }*/
 
 }

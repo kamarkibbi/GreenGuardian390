@@ -1,3 +1,4 @@
+//UserProfile: This class defines the userprofile object
 package com.example.greenguardian390.Models;
 
 import java.io.Serializable;
@@ -48,30 +49,5 @@ public class UserProfile implements Serializable{
         return userPlants;
     }
 
-    public void addPlant(Plant p)
-    {
-        userPlants.add(p);
-    }
 
-    public Plant findPlant(Plant p)
-    {
-        int index=userPlants.indexOf(p);
-
-        if(index!=-1)
-        {
-            return userPlants.get(index);
-        }
-
-        return null;
-    }
-
-    public void deletePlant(Plant p)
-    {
-        int index=userPlants.indexOf(p);
-
-        if(index!=-1)
-        {
-            userPlants.remove(index);
-        }
-    }
 }

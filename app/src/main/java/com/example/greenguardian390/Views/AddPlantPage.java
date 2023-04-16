@@ -1,3 +1,4 @@
+//AddPlantPage: This page lets the user either add a new plant or edit an existing plant
 package com.example.greenguardian390.Views;
 
 import androidx.annotation.NonNull;
@@ -66,6 +67,7 @@ public class AddPlantPage extends AppCompatActivity {
         moisture = findViewById(R.id.AddSoilEditText);
         progressBar=findViewById(R.id.progressBarRegister);
 
+        //if user is coming from plant page to edit a plant, display plant info
         selectedPlant = (Plant) getIntent().getSerializableExtra("plantClicked");
         if(selectedPlant!=null)
         {
@@ -73,22 +75,6 @@ public class AddPlantPage extends AppCompatActivity {
             temperature.setText(String.valueOf(selectedPlant.getActualTemp()));
             moisture.setText(String.valueOf(selectedPlant.getActualSoilMoisture()));
         }
-
-        /*selectedImage = findViewById(R.id.ImageView);
-        CameraButton = findViewById(R.id.CameraButton);
-        GalleryButton = findViewById(R.id.GalleryButton);*/
-
-
-
-//        System.out.println(selectedPlant.getPlantName());
-   //     System.out.println(selectedPlant.getActualSoilMoisture());
-   //     System.out.println(selectedPlant.getActualTemp());
-
-      //  System.out.println("I am in addplantpage coming from plant page");
-
-
-
-
 
 
     }
@@ -100,11 +86,11 @@ public class AddPlantPage extends AppCompatActivity {
                 selectedPlant = (Plant) getIntent().getSerializableExtra("plantClicked");
                 if(selectedPlant!=null)
                 {
-                    editPlant();
+                    editPlant(); //execute editPlant function if user coming from plant page to edit plant
                 }
                 else
                 {
-                    addPlantToProfile();
+                    addPlantToProfile(); //execute addPlantToProfile if user wants to add a new plant to their profile
                 }
                 break;
         }
@@ -138,7 +124,7 @@ public class AddPlantPage extends AppCompatActivity {
                 }
             }
 
-
+            //remove current plant and create a new plant with the new information and save new arraylist of plants to database
             currentUserPlants.remove(indexOfPlant);
 
             newPlant.setPlantName(name.getText().toString());
@@ -178,11 +164,8 @@ public class AddPlantPage extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         Plant plantCreated=new Plant(Float.parseFloat(m),Float.parseFloat(t),n);
-            //selectedImage
 
         UserProfile currentuser=(UserProfile) getIntent().getSerializableExtra("CurrentUser");
-
-        System.out.println(currentuser.getUsername());
 
         ArrayList<Plant> plantList=currentuser.getUserPlants();
 
@@ -210,56 +193,6 @@ public class AddPlantPage extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-
-
-
     }
 
-    /*
-    private void askCameraPermission() {   //CHECKS IF PERMISSION IS GRANTED FROM USER OR NOT
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 111);
-        } else {
-            openCamera();
-
-        }
-
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 111) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openCamera();
-            } else {
-                Toast.makeText(this, "Camera Permission is required to use the camera ", Toast.LENGTH_SHORT).show();
-
-            }
-        }
-    }
-
-    private void openCamera() {
-        Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(camera, 112);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 112) {
-            Bitmap image  = (Bitmap) data.getExtras().get("data");
-            selectedImage.setImageBitmap(image);
-
-        }
-
-
-    }*/
 }
